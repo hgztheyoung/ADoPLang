@@ -2,30 +2,26 @@
 (require (for-syntax syntax/parse))
 
 (define-syntax skip
-  (lambda (stx)
-    (syntax-parse stx
-      [(skip) #'(void)])))
+  (syntax-rules ()
+    [(skip) (void)]))
 
 (define-syntax abort
-  (lambda (stx)
-    (syntax-parse stx
-      [(abort) #'(error "aborted")])))
+  (syntax-rules ()
+    [(abort) (error "aborted")]))
 
 (define-syntax :=
-  (lambda (stx)
-    (syntax-parse stx      
-      [(_ (x ...) (y ...))
-       #'(set!-values (x ...) (values y ...))]
-      [(_ x y)
-       #'(set! x y)])))
+  (syntax-rules ()
+    [(_ (x ...) (y ...))
+     (set!-values (x ...) (values y ...))]
+    [(_ x y)
+     (set! x y)]))
 
 (define-syntax init
-  (lambda (stx)
-    (syntax-parse stx      
-      [(_ (x ...) (y ...))
-       #'(define-values (x ...) (values y ...))]
-      [(_ x y)
-       #'(define x y)])))
+  (syntax-rules ()
+    [(_ (x ...) (y ...))
+     (define-values (x ...) (values y ...))]
+    [(_ x y)
+     (define x y)]))
 
 ;p is the count of unencountered true branches
 (define-syntax condp
@@ -38,13 +34,12 @@
          (condp p [c1 c2 ...]))]))
 
 (define-syntax iffi
-  (lambda (stx)
-    (syntax-parse stx
-      [(_  (pred conseq) ...)
-       #'(let ([tcount (count (lambda (x) (eq? x #t)) (list pred ...))])
-           (if (eq? tcount 0)
-               (abort)
-               (condp tcount [(pred conseq) ...])))])))
+  (syntax-rules ()
+    [(_  (pred conseq) ...)
+     (let ([tcount (count (lambda (x) (eq? x #t)) (list pred ...))])
+       (if (eq? tcount 0)
+           (abort)
+           (condp tcount [(pred conseq) ...])))]))
 
 (define-syntax loop
   (lambda (x)
