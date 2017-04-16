@@ -102,6 +102,6 @@
    (#t (init x (HpPrinter "hp")))
    (#t (init x (CanonPrinter "Canon"))))
   ;x is HpPrinter or CanonPrinter now
-  (send x print "Hello World" "default_Setting")
+  (send x printerPrint "Hello World" "default_Setting")
   (let ([x (: glo con)]);we can use x and we turn out just caring its qulifiers but its type,HpPrinter or CanonPrinter
-    (send x print "Using OutSide x" "default_Setting")))
+    (send x printerPrint "Using OutSide x" "default_Setting")))
