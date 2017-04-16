@@ -39,7 +39,10 @@
       [h : pri var]
       [(x1 y1 z1) : pri] ; allowing default implicit qulifier,choosing it to be pri var.
       [(x2 y2 z2) : pri] ; with default qulifier,it looks "easier" and more confusing,with implicit "naturally" choosen qulifier.
-      [(x3 y3 z3) : pri]
+      [(x3 y3 z3) : pri] ; I'm not sure whether its a good idea, not declaring con or var actually means con or var type.
+                         ; but no one ever forced that some var must vary.
+                         ; similarly inheriting some variable without making clear whether it's glo or vir is nothing but confusing.
+                         ; thus we the only option it pri,thus we can omit it ?
       [z4]
       [(x5 y5 z5)]      
       [(l1 l2)]
