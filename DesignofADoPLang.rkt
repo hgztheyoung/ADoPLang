@@ -47,6 +47,8 @@
       [x6 x7]
       [x8 x9 (: pri con)]
       [x10 x11 : pri]
+      [(x12 x13) (pri con blabla...)]
+      [(x14 x15) pri]
       )
   
   (init (x1 y1) [(3 4) . of . Int]) ; this . of . form reads like English,not sure whether its a good design
