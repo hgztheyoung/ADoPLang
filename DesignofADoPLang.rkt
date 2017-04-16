@@ -84,7 +84,7 @@
 ;initilize with an iffi,resulting in or type
 ;Notice that a variable should be initilized in all the branches.
 ;as Dijkstra says,as long as the type can provide all the functions sent to it.
-;When should not refuse to init it to be different types. (Dynamic type?I don't know...)
+;We should not refuse to init it to be different types. (Dynamic type?I don't know...)
 (let ([x (: pri con)])
   (iffi
    (#t (init x (Int 213)))
