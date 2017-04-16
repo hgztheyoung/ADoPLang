@@ -10,7 +10,7 @@
   (+ x y))
 
 ;chapter 10 pri/glo/vir  and con/var
-;chapter 11 Array variable,viz Dijkstra's vector
+;chapter 11 Array variable viz. Dijkstra's vector
 ;pri create variable in this scope,pri is short for private.
 ;this looks like the original let in Racket.
 
@@ -38,7 +38,7 @@
       [(f g) : pri con] ;less parentheses,harder to implement
       [h : pri var]
       [(x1 y1 z1) : pri] ; allowing default implicit qulifier,choosing it to be pri var.
-      [(x2 y2 z2) : pri] ; with default qulifier,it looks "easier" and more confusing,with implicit "naturly" choosen qulifier.
+      [(x2 y2 z2) : pri] ; with default qulifier,it looks "easier" and more confusing,with implicit "naturally" choosen qulifier.
       [(x3 y3 z3) : pri]
       [z4]
       [(x5 y5 z5)]      
@@ -57,27 +57,27 @@
                                        ; just like Point x3{3,4},y3{4,5};
   (init (a b c) [: Int 1 2 3])
   (init z3 (Point 3 4))
-  (init (l1 l2) [:Line (x3 y3) (x3 y3)]);x3,y3 alread inited, OK the use them here.
-  ; all of the above init statments will result in a call to create a struct or class or prim type in Racket
+  (init (l1 l2) [: Line (x3 y3) (x3 y3)]);x3,y3 alread inited, OK the use them here.
+  ; all of the above init statments will result in calls to create a struct or class or prim type in Racket
 
   (init (x5 y5 z5) [(Int 3) (Boolean #f) #t])
   ;(Boolean seems foolish,we may infer that #f or #t can always be Boolean)
   ;this is a quite sofisticated problem,we don't know whether 3 is Int or Long.
-  ;It remains a problem to me whether we should differ them.
-  ;And I'm to naive to implement some type inference.
+  ;It remains confusing to me whether we should distinguish them.
+  ;And I'm too naive to implement some type inference.
   ;Let's just care about syntax for now.
   ;Naively,we may think of 3 as (Int 3) and #t as (Boolean #t)
-  ;Which I'm sure to cause a lot of trouble...
+  ;Which ,I'm sure, is going to cause a lot of trouble...
   
   (send l1 goThroughOrigin) ; this is just l1.goThroughOrigin()
-  (send l1 moveUp! 1); this is l1.moveUp!(1),or with Dijkstra's manner, l1:moveUp(1).
+  (send l1 moveUp! 1); this is l1.moveUp!(1),or with Dijkstra's manner, l1:moveUp!(1).
   (+ x y)
   z4  ;referencing z4 here should cause an error,cause z hasn't been initialized
   (let ([z vir]
-        [x pri] ;;OK to use pri x,if use globe x,wound bother to name a pri x
+        [x pri] ;;OK to use pri x,if we are using globe x,won't bother to name a pri x in that case
         [y glo]
         [(a b) (: glo const)]
-        (init z ("213hgz" . of . String))
+        (init z (String "213hgz"))
         (send z (get_i y)))))
 
 
