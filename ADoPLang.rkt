@@ -6,6 +6,10 @@
   (syntax-rules ()
     [(skip) (void)]))
 
+(define-syntax seq
+  (syntax-rules ()
+    [(seq e0 ...) (begin e0 ...)]))
+
 (define-syntax abort
   (syntax-rules ()
     [(abort) (error "aborted")]))
@@ -24,23 +28,24 @@
     [(_ x y)
      (define x y)]))
 
-;p is the count of unencountered true branches
-(define-syntax condp
-  (syntax-rules (else)    
-    [(_ p [(else e1 e2 ...)]) (begin e1 e2 ...)]
-    [(_ p [(e0 e1 e2 ...)]) (when e0 (begin e1 e2 ...))]
-    [(_ p [(e0 e1 e2 ...) c1 c2 ...])
-     (if e0
-         (if (< (random) (/ 1 p)) (begin e1 e2 ...) (condp (- p 1) [c1 c2 ...]))
-         (condp p [c1 c2 ...]))]))
+(define-syntax condpOrigin
+  (syntax-rules ()
+    [(_ () ()) (void)]
+    [(_ (e0 e1 ...) (c0 c1 ...))
+     (let* ([l (vector (cons e0 (lambda () c0)) (cons e1 (lambda () c1)) ...)]
+            [t (vector-filter-not (lambda (p) (false? (car p))) l)]
+            [tlen (vector-length t)])
+       (if (= tlen 0)
+           (skip)
+           ((cdr (vector-ref t (random tlen))))))]))
 
 (define-syntax iffi
-  (syntax-rules ()
-    [(_  (pred conseq) ...)
-     (let ([tcount (count (lambda (x) (eq? x #t)) (list pred ...))])
-       (if (eq? tcount 0)
-           (abort)
-           (condp tcount [(pred conseq) ...])))]))
+  (syntax-rules (else)
+    [(_ (e0 e1 e2 ...)) (if e0 (seq e1 e2 ...) (skip))]
+    [(_ (e0 e1 e2 ...) ...)
+     (condpOrigin (e0 ...) ((seq e1 e2 ...) ...))]))
+
+
 
 (define-syntax loop
   (lambda (x)
