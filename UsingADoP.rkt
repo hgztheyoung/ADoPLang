@@ -1,6 +1,3 @@
-#lang racket
-(require  "./ADopLang.rkt")
-
 (define (f X Y)
   (def (x y) (X Y))
   (dood ((> x y) (:= x (- x y)))
@@ -41,9 +38,6 @@
 
 (begin (def x 1) (dood ((neq? x 10) (:= x (+ x 1)))) (print x))
 
-(condp 2
-       [(#t 1)
-        (else 2)])
 
 ;strange is of type 50% to be int or 25% to be bool or 25% to be string
 ;the above is just some type illusion, there's no explicit type in ADoPLang
@@ -52,4 +46,3 @@
    (#t 1)
    (#t (iffi (#t #t)
              (#t "213")))))
-
