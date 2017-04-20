@@ -28,7 +28,7 @@
     [(_ x y)
      (define x y)]))
 
-(define-syntax condpOrigin
+(define-syntax condpOriginWithError
   (syntax-rules ()
     [(_ () ()) (void)]
     [(_ (e0 e1 ...) (c0 c1 ...))
@@ -36,14 +36,14 @@
             [t (vector-filter-not (lambda (p) (false? (car p))) l)]
             [tlen (vector-length t)])
        (if (= tlen 0)
-           (skip)
+           (abort)
            ((cdr (vector-ref t (random tlen))))))]))
+
 
 (define-syntax iffi
   (syntax-rules (else)
-    [(_ (e0 e1 e2 ...)) (if e0 (seq e1 e2 ...) (skip))]
     [(_ (e0 e1 e2 ...) ...)
-     (condpOrigin (e0 ...) ((seq e1 e2 ...) ...))]))
+     (condpOriginWithError (e0 ...) ((seq e1 e2 ...) ...))]))
 
 
 
@@ -60,7 +60,8 @@
   (syntax-rules ()
     [(dood (pred conseq) ...)
      (loop
-      (let ([tcount (count (lambda (x) (eq? x #t)) (list pred ...))])
+      (let* ([predlist (list pred ...)]
+             [tcount (count (lambda (x) (eq? x #t)) predlist)])
         (if (eq? tcount 0)
             (break)
             (iffi (pred conseq) ...))))]))
